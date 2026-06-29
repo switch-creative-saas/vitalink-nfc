@@ -20,7 +20,8 @@ import { containerVariants, itemVariants } from '@/lib/animations';
 const Profile: React.FC = () => {
   const navigate = useNavigate();
   const { t } = useLanguage();
-  const { patient, updatePatient, setPhotoUrl, lock } = usePatientStore();
+  const { patient, updatePatient, setPhotoUrl, lock, contacts } = usePatientStore();
+  const primaryContact = contacts.find((contact) => contact.isPrimary) ?? contacts[0];
 
   const [editMode, setEditMode] = useState(false);
   const [showDeleteConfirm, setShowDeleteConfirm] = useState(false);
@@ -223,12 +224,12 @@ const Profile: React.FC = () => {
           </h3>
           <div className="flex items-center gap-2">
             <User size={16} className="text-vita-purple" />
-            <p className="text-sm font-semibold">Maria Ali</p>
-            <p className="text-xs text-muted-foreground">Sister</p>
+            <p className="text-sm font-semibold">{primaryContact?.name ?? '-'}</p>
+            <p className="text-xs text-muted-foreground">{primaryContact?.relationship ?? '-'}</p>
           </div>
           <div className="flex items-center gap-2 mt-1">
             <Phone size={14} className="text-muted-foreground" />
-            <p className="text-xs text-muted-foreground">+234 805 123 4567</p>
+            <p className="text-xs text-muted-foreground">{primaryContact?.phone ?? '-'}</p>
           </div>
         </GlassCard>
       </motion.section>
